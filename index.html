@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
-    <script src="https://unpkg.com"></script>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/akbartus/A-Frame-Component-Postprocessing/dist/post-processing.min.js"></script></script>
   </head>
   <body>
-    <a-scene>
-      <a-sphere position="0 0.25 -102" radius="48.25" color="#fae050" material="shader: flat"></a-sphere>
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="300" height="100" color="#e66430"></a-plane>
+    <a-scene post-processing="effect: volumetric-light;">
+      <a-sphere position="0 0.25 -202" radius="108.25" color="#fae050" material="shader: flat"></a-sphere>
+      <a-plane position="0 0 -4" rotation="-90 0 0" width="300" height="300" color="#e66430"></a-plane>
       <a-sky color="#000000"></a-sky>
     </a-scene>
   </body>
