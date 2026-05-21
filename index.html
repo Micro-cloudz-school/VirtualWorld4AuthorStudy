@@ -7,11 +7,18 @@
   <body>
     <a-scene>
       <a-assets>
-    <a-asset-item id="myModel" src="GeodesicDome.glb"></a-asset-item>
+    <a-asset-item id="dome" src="GeodesicDome.glb"></a-asset-item>
+    <a-asset-item id="earth" src="Planet.glb"></a-asset-item>
   </a-assets> 
        <a-gltf-model 
-    src="#myModel" 
+    src="#dome" 
     position="0 1 10.1234" 
+    rotation="0 45 0" 
+    scale="0.5 0.5 0.5">
+  </a-gltf-model>
+     <a-gltf-model 
+    src="#earth" 
+    position="-108 100 -304" 
     rotation="0 45 0" 
     scale="0.5 0.5 0.5">
   </a-gltf-model>
