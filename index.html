@@ -1,43 +1,66 @@
 <!DOCTYPE html>
+
 <html>
+
   <head>
+
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    </head>
+
+    <script src="https://cdn.jsdelivr.net/gh/akbartus/A-Frame-Component-Postprocessing/dist/post-processing.min.js"></script>
+
+  </head>
+
   <body>
+
     <a-scene light="defaultLightsEnabled: true">
-      
+
       <a-assets>
-        <a-asset-item id="dome" src="GeodesicDome.glb"></a-asset-item>
-        <a-asset-item id="earth" src="Planet.glb"></a-asset-item>
-      </a-assets> 
 
-      <a-entity position="0 5 25">
-        <a-camera></a-camera>
-      </a-entity>
+    <a-asset-item id="dome" src="GeodesicDome.glb"></a-asset-item>
 
-      <a-gltf-model 
-        src="#dome" 
-        position="0 1 -10" 
-        rotation="0 45 0" 
-        scale="0.5 0.5 0.5">
-      </a-gltf-model>
+    <a-asset-item id="earth" src="Planet.glb"></a-asset-item>
 
-      <a-gltf-model 
-        id="earth"
-        src="#earth" 
-        position="-302 153 -398" 
-        rotation="0 45 45" 
-        scale="35 35 35">
-      </a-gltf-model>
+  </a-assets> 
+
+       <a-gltf-model 
+
+    src="#dome" 
+
+    position="0 1 10.1234" 
+
+    rotation="0 45 0" 
+
+    scale="0.5 0.5 0.5">
+
+  </a-gltf-model>
+
+     <a-gltf-model 
+
+    src="#earth" 
+
+    position="-302 153 -398" 
+
+    rotation="0 45 45" 
+
+    scale="35 35 35"
+
+    id="earth">
+
+  </a-gltf-model>
 
       <a-sphere position="0 0.25 -242" radius="108.25" color="#fae050" material="shader: flat"></a-sphere>
+
       <a-plane position="0 0 -4" rotation="-90 0 0" width="300" height="300" color="#e66430"></a-plane>
-      
+
       <a-light type="directional" color="#EEE" intensity="0.5" position="0 27 -202"></a-light>
-      <a-entity light="type: directional; target: #earth;" position="0 10 0"></a-entity>
+
       <a-light type="ambient" color="#FFF" intensity="0.45"></a-light>
+
       <a-sky color="#000000"></a-sky>
 
     </a-scene>
+
   </body>
-</html>
+
+</html> 
+
