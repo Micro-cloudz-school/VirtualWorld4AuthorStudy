@@ -8,49 +8,60 @@
 
     <script src="https://cdn.jsdelivr.net/gh/akbartus/A-Frame-Component-Postprocessing/dist/post-processing.min.js"></script>
 
-    <script>
-      // Register a custom A-Frame component
-      AFRAME.registerComponent('force-flat', {
-        init: function () {
-          // Wait for the GLB model to finish loading
-          this.el.addEventListener('model-loaded', () => {
-            const obj3D = this.el.getObject3D('mesh');
-            if (!obj3D) return;
+   <script>
+  AFRAME.registerComponent('force-flat', {
+    // You can adjust this factor! 
+    // 1.0 = normal, 1.5 = 50% more saturated, 2.0 = double saturation, etc.
+    schema: {
+      saturation: { type: 'number', default: 2.0 } 
+    },
 
-            // Traverse all parts of the 3D model (nodes, meshes, etc.)
-            obj3D.traverse((node) => {
-              if (node.isMesh && node.material) {
-                
-                // If the model has multiple materials (an array)
-                if (Array.isArray(node.material)) {
-                  node.material = node.material.map(mat => this.convertToFlat(mat));
-                } else {
-                  // If it has a single material
-                  node.material = this.convertToFlat(node.material);
-                }
-                
-              }
-            });
-          });
-        },
+    init: function () {
+      this.el.addEventListener('model-loaded', () => {
+        const obj3D = this.el.getObject3D('mesh');
+        if (!obj3D) return;
 
-        // Helper function to convert a standard material to a flat (Basic) one
-        convertToFlat: function (oldMaterial) {
-          const flatMaterial = new THREE.MeshBasicMaterial({
-            map: oldMaterial.map,       // Keeps the original texture image
-            color: oldMaterial.color,   // Keeps the original base color
-            vertexColors: oldMaterial.vertexColors,
-            transparent: oldMaterial.transparent,
-            opacity: oldMaterial.opacity,
-            side: oldMaterial.side
-          });
-          
-          // Dispose of the old material from memory to prevent leaks
-          oldMaterial.dispose(); 
-          return flatMaterial;
-        }
+        obj3D.traverse((node) => {
+          if (node.isMesh && node.material) {
+            if (Array.isArray(node.material)) {
+              node.material = node.material.map(mat => this.convertToFlat(mat));
+            } else {
+              node.material = this.convertToFlat(node.material);
+            }
+          }
+        });
       });
-    </script>
+    },
+
+    convertToFlat: function (oldMaterial) {
+      // 1. Clone the original color so we don't mess up other models
+      const newColor = oldMaterial.color.clone();
+      
+      // 2. Create a temporary object to hold HSL values
+      const hsl = { h: 0, s: 0, l: 0 };
+      newColor.getHSL(hsl);
+
+      // 3. Multiply the saturation by our factor (and cap it at 1.0 maximum)
+      hsl.s = Math.min(1.0, hsl.s * this.data.saturation);
+      
+      // 4. Apply the boosted HSL back to our color object
+      newColor.setHSL(hsl.h, hsl.s, hsl.l);
+
+      // 5. Create the flat material with our new super-saturated color
+      const flatMaterial = new THREE.MeshBasicMaterial({
+        map: oldMaterial.map,       
+        color: newColor, // <-- Uses our vivid color!
+        vertexColors: oldMaterial.vertexColors,
+        transparent: oldMaterial.transparent,
+        opacity: oldMaterial.opacity,
+        side: oldMaterial.side
+      });
+      
+      oldMaterial.dispose(); 
+      return flatMaterial;
+    }
+  });
+</script>
 
   </head>
 
@@ -88,7 +99,7 @@
 
     scale="35 35 35"
 
-    force-flat
+    force-flat="saturation: 3.0"
 
     id="earth">
 
