@@ -8,6 +8,50 @@
 
     <script src="https://cdn.jsdelivr.net/gh/akbartus/A-Frame-Component-Postprocessing/dist/post-processing.min.js"></script>
 
+    <script>
+      // Register a custom A-Frame component
+      AFRAME.registerComponent('force-flat', {
+        init: function () {
+          // Wait for the GLB model to finish loading
+          this.el.addEventListener('model-loaded', () => {
+            const obj3D = this.el.getObject3D('mesh');
+            if (!obj3D) return;
+
+            // Traverse all parts of the 3D model (nodes, meshes, etc.)
+            obj3D.traverse((node) => {
+              if (node.isMesh && node.material) {
+                
+                // If the model has multiple materials (an array)
+                if (Array.isArray(node.material)) {
+                  node.material = node.material.map(mat => this.convertToFlat(mat));
+                } else {
+                  // If it has a single material
+                  node.material = this.convertToFlat(node.material);
+                }
+                
+              }
+            });
+          });
+        },
+
+        // Helper function to convert a standard material to a flat (Basic) one
+        convertToFlat: function (oldMaterial) {
+          const flatMaterial = new THREE.MeshBasicMaterial({
+            map: oldMaterial.map,       // Keeps the original texture image
+            color: oldMaterial.color,   // Keeps the original base color
+            vertexColors: oldMaterial.vertexColors,
+            transparent: oldMaterial.transparent,
+            opacity: oldMaterial.opacity,
+            side: oldMaterial.side
+          });
+          
+          // Dispose of the old material from memory to prevent leaks
+          oldMaterial.dispose(); 
+          return flatMaterial;
+        }
+      });
+    </script>
+
   </head>
 
   <body>
@@ -43,6 +87,8 @@
     rotation="0 45 45" 
 
     scale="35 35 35"
+
+    force-flat
 
     id="earth">
 
