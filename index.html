@@ -75,6 +75,12 @@
 
     <a-asset-item id="jupiter" src="Jupiter.glb"></a-asset-item>
 
+    <a-asset-item id="solarpanel" src="SolarPanel.glb"></a-asset-item>
+
+    <a-asset-item id="sattelite" src="Sattelite.glb"></a-asset-item>
+
+    <a-asset-item id="skyboximg" src="Starmap.jpg"></a-asset-item>
+
   </a-assets> 
 
        <a-gltf-model 
@@ -121,6 +127,34 @@
 
   </a-gltf-model>
 
+      <a-gltf-model 
+
+    src="#solarpanel" 
+
+    position="-13 1 10.1234" 
+
+    rotation="0 45 0" 
+
+    scale="0.5 0.5 0.5"
+
+    id="solarpanel">
+
+  </a-gltf-model>
+
+      <a-gltf-model 
+
+    src="#sattelite" 
+
+    position="13 1 9.1234" 
+
+    rotation="0 45 0" 
+
+    scale="1.2 1.2 1.2"
+
+    id="solarpanel">
+
+  </a-gltf-model>
+
       <a-sphere position="0 0.25 -242" radius="108.25" color="#fae050" material="shader: flat"></a-sphere>
 
       <a-plane position="0 0 -4" rotation="-90 0 0" width="300" height="300" color="#e66430"></a-plane>
@@ -131,7 +165,7 @@
 
       <a-entity light="type: hemisphere; color: #CCC; groundColor: #d6723b; intensity: 1.4"></a-entity>
 
-      <a-sky color="#000000"></a-sky>
+      <a-sky src="#skyboximg"></a-sky>
 
     </a-scene>
 
